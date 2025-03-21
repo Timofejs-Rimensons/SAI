@@ -4,6 +4,8 @@ import time
 from datetime import datetime as dt
 import numpy as np
 import matplotlib.pyplot as plt
+import json
+
 
 BUZZER_P = 4
 JOYSTICK_BTN = 7
@@ -13,8 +15,8 @@ BTN_1 = 20
 BTN_2 = 21
 BTN_3 = 26
 
-JOYSTICK_X = 3
-JOYSTICK_Y = 4
+JOYSTICK_X = 0b1110
+JOYSTICK_Y = 0b1011
 
 POSITIONS = {  # C-centre, L-left, R-right, U-up, D-down
     "CC": np.array([126, 137]),
@@ -47,7 +49,7 @@ def buzz(buzzerPin: int, freq: int, delay: float):
     pwm.stop()
 
 def read_adc(channel):
-    command = 0x84 | ((channel & 0x07) << 4)
+    command = 0b10000100 | (channel << 4)
     bus.write_byte(I2C_ADDRESS, command)
     return bus.read_byte(I2C_ADDRESS)
 
